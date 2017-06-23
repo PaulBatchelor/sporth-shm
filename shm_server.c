@@ -35,9 +35,9 @@ static int sp_shm_set(shared_mem *sm, key_t key, SPFLOAT *val)
 static int sporth_shm_server(plumber_data *pd, sporth_stack *stack, void **ud)
 {
     shared_mem *sm;
-    char *str;
+    const char *str;
     SPFLOAT key;
-    float *val;
+    SPFLOAT *val;
     switch(pd->mode) {
         case PLUMBER_CREATE:
             if(sporth_check_args(stack, "sf") != SPORTH_OK) {
@@ -51,7 +51,7 @@ static int sporth_shm_server(plumber_data *pd, sporth_stack *stack, void **ud)
             
             sp_shm_set(sm, key, &sm->val);
             sm->val = 1234;
-            val = sm->shm;
+            val = (SPFLOAT *)sm->shm;
             plumber_ftmap_delete(pd, 0);
             plumber_set_var(pd, str, val);
             plumber_ftmap_delete(pd, 1);
